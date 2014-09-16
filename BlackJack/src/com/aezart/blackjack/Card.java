@@ -1,18 +1,18 @@
 package com.aezart.blackjack;
 enum CardNumber{
-	ACE(1,11,"ace"),
-	TWO(2,2,"two"),
-	THREE(3,3,"three"),
-	FOUR(4,4,"four"),
-	FIVE(5,5,"five"),
-	SIX(6,6,"six"),
-	SEVEN(7,7,"seven"),
-	EIGHT(8,8,"eight"),
-	NINE(9,9,"nine"),
-	TEN(10,10,"ten"),
-	JACK(10,10,"jack"),
-	QUEEN(10,10,"queen"),
-	KING(10,10,"king");
+	ACE(1,11,"A"),
+	TWO(2,2,"2"),
+	THREE(3,3,"3"),
+	FOUR(4,4,"4"),
+	FIVE(5,5,"5"),
+	SIX(6,6,"6"),
+	SEVEN(7,7,"7"),
+	EIGHT(8,8,"8"),
+	NINE(9,9,"9"),
+	TEN(10,10,"10"),
+	JACK(10,10,"J"),
+	QUEEN(10,10,"Q"),
+	KING(10,10,"K");
 	
 	private int lowVal;
 	private int highVal;
@@ -33,10 +33,10 @@ enum CardNumber{
 	}
 }
 enum CardSuit{
-	HEARTS("hearts"),
-	SPADES("spades"),
-	CLUBS("clubs"),
-	DIAMONDS("diamonds");
+	HEARTS("♥"),
+	SPADES("♠"),
+	CLUBS("♣"),
+	DIAMONDS("♦");
 	
 	private String name;
 	private CardSuit(String name){
@@ -47,7 +47,7 @@ enum CardSuit{
 		return name;
 	}
 }
-public class Card {
+public class Card implements Comparable<Card> {
 	private CardNumber cardNumber;
 	private CardSuit cardSuit;
 	
@@ -63,9 +63,20 @@ public class Card {
 		return cardNumber.highVal();
 	}
 	public String toString(){
-		return cardNumber.toString() + " of " + cardSuit.toString();
+		return cardNumber.toString() + cardSuit.toString();
 	}
 	public CardNumber number(){
 		return cardNumber;
+	}
+
+	@Override
+	public int compareTo(Card o) {
+		if (o.lowValue() == lowValue()){
+			return 0;
+		}
+		if (o.lowValue() > lowValue()){
+			return -1;
+		}
+		return 1;
 	}
 }

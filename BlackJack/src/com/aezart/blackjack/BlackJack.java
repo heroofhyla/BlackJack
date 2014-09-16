@@ -11,33 +11,30 @@ public class BlackJack {
 		Scanner userIn = new Scanner(System.in);
 		do{
 			System.out.println("Creating a deck of cards...");
-			ArrayList<Integer> deck = new ArrayList<Integer>();
-			for (int i = 1; i <= 10; i++){ //populate deck with 1-10 cards
-				for (int k = 0; k < 4; k++){
-					deck.add(new Integer(i));
+			ArrayList<Card> deck = new ArrayList<Card>();
+			for (CardNumber c: CardNumber.values()){
+				for (CardSuit s: CardSuit.values()){
+					deck.add(new Card(c, s));
 				}
-			}
-			for (int i = 0; i < 12; i++){ //add face cards
-				deck.add(new Integer(10));
 			}
 			System.out.println("Done.");
 			System.out.println("Shuffling.");
 			Collections.shuffle(deck);
 			System.out.println("Done.");
 			
-			ArrayList<Integer> playerHand = new ArrayList<Integer>();
+			ArrayList<Card> playerHand = new ArrayList<Card>();
 			playerHand.add(deck.remove(0));
 			System.out.println("Player dealt " + playerHand.get(playerHand.size()-1));
 			playerHand.add(deck.remove(0));
 			System.out.println("Player dealt " + playerHand.get(playerHand.size()-1));
-			ArrayList<Integer> dealerHand = new ArrayList<Integer>();
+			ArrayList<Card> dealerHand = new ArrayList<Card>();
 			dealerHand.add(deck.remove(0));
 			dealerHand.add(deck.remove(0));
 			
 			boolean isPlayerTurn = true;
 			do {
 				System.out.printf("You have %d cards for a total of %d points. \n",playerHand.size(),calcScore(playerHand));
-				System.out.printf("Dealer's revealed card is %d.\n", dealerHand.get(0));
+				System.out.println("Dealer's revealed card is: " + dealerHand.get(0));
 				System.out.println("Will you [s]tay or [h]it?");
 				
 				playerInput = userIn.nextLine().charAt(0);
@@ -69,7 +66,8 @@ public class BlackJack {
 			if (calcScore(playerHand) > 21){
 				System.out.println("Bust!");
 			}
-			System.out.println("The dealer reveals his other card, for a total score of " + calcScore(dealerHand));
+			System.out.println("The dealer reveals his other card: " + dealerHand.get(dealerHand.size() - 1)); 
+			System.out.println("for a total score of " + calcScore(dealerHand));
 			while (calcScore(dealerHand) < 17){
 				dealerHand.add(deck.remove(0));
 				System.out.println("Dealer hits: " + dealerHand.get(dealerHand.size() - 1));
@@ -122,19 +120,15 @@ public class BlackJack {
 		userIn.close();
 	}
 	
-	public static int calcScore(ArrayList<Integer> hand){
+	public static int calcScore(ArrayList<Card> hand){
 		Collections.sort(hand);
 		Collections.reverse(hand);//we want 1s at the end, they are a special case
 		int score = 0;
 		for (int i = 0; i < hand.size(); i++){
-			if (hand.get(i).intValue() == 1){
-				if (score <= 10 && i == hand.size() - 1){
-					score += 11;
-				}else{
-					score += 1;
-				}
+			if (hand.get(i).number() == CardNumber.ACE && score <= 10 && i == hand.size() - 1){
+					score += hand.get(i).highValue();
 			}else{
-				score += hand.get(i).intValue();
+				score += hand.get(i).lowValue();
 			}
 		}
 		
