@@ -33,10 +33,10 @@ enum CardNumber{
 	}
 }
 enum CardSuit{
-	HEARTS("♥"),
-	SPADES("♠"),
-	CLUBS("♣"),
-	DIAMONDS("♦");
+	HEARTS("hearts"),
+	SPADES("spades"),
+	CLUBS("clubs"),
+	DIAMONDS("diamonds");
 	
 	private String name;
 	private CardSuit(String name){
@@ -63,7 +63,7 @@ public class Card implements Comparable<Card> {
 		return cardNumber.highVal();
 	}
 	public String toString(){
-		return cardNumber.toString() + cardSuit.toString();
+		return cardNumber.toString() + " of " + cardSuit.toString();
 	}
 	public CardNumber number(){
 		return cardNumber;

@@ -37,12 +37,17 @@ public class BlackJack {
 				System.out.println("Dealer's revealed card is: " + dealerHand.get(0));
 				System.out.println("Will you [s]tay or [h]it?");
 				
-				playerInput = userIn.nextLine().charAt(0);
+				String playerInputString;
+				do{
+					playerInputString = userIn.nextLine();
+				} while (playerInputString.length() == 0);
+				playerInput = playerInputString.charAt(0);
 				
 				while (playerInput != 'h' && playerInput != 'H'
 						&& playerInput != 's' && playerInput != 'S'){
 					System.out.println("I didn't catch that, [h]it or [s]tay?");
-					playerInput = userIn.nextLine().charAt(0);
+					playerInputString = userIn.nextLine();
+					playerInput = playerInputString.charAt(0);
 				}
 				
 				switch (playerInput){
@@ -110,10 +115,15 @@ public class BlackJack {
 				}
 			}
 			System.out.println("Play again?");
-			playerInput = userIn.nextLine().charAt(0);
+			String playerInputString;
+			do{
+				playerInputString = userIn.nextLine();
+			}while (playerInputString.length() == 0);
+			playerInput = playerInputString.charAt(0);
 			while (playerInput != 'y' && playerInput != 'Y' && playerInput != 'n' && playerInput != 'N'){
 				System.out.println("I didn't catch that. Play again?");
-				playerInput = userIn.nextLine().charAt(0);
+				playerInputString = userIn.nextLine();
+				playerInput = playerInputString.charAt(0);
 			}
 			
 		}while (playerInput == 'y' || playerInput == 'Y');
